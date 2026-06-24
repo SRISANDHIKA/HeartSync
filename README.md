@@ -118,5 +118,3 @@ To connect patients, doctors, nurses, laboratory technicians, pharmacy staff, an
 ## 👩‍💻 Developer
 
 Sri Sandhika
-
-Building HeartSync one commit at a time 🚀
