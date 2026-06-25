@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Patient
 
 def patient_list(request):
@@ -23,3 +23,39 @@ def patient_list(request):
         "patients/patient_list.html",
         context
     )
+
+def patient_detail(request, id):
+    patient = Patient.objects.get(id=id)
+
+    return render(
+        request,
+        'patients/patient_detail.html',
+        {'patient': patient}
+    )
+
+def delete_patient(request, id):
+    patient = Patient.objects.get(id=id)
+    patient.delete()
+
+    return redirect('patient_list')
+
+def edit_patient(request, id):
+    patient = Patient.objects.get(id=id)
+
+    if request.method == 'POST':
+        patient.name = request.POST['name']
+        patient.age = request.POST['age']
+        patient.gender = request.POST['gender']
+        patient.phone = request.POST['phone']
+
+        patient.save()
+
+        return redirect('patient_list')
+
+    return render(
+        request,
+        'patients/edit_patient.html',
+        {'patient': patient}
+    )
+
+
