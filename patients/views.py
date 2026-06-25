@@ -1,15 +1,18 @@
 from django.shortcuts import render,redirect
 from .models import Patient
+from doctors.models import Doctor
+
 
 def patient_list(request):
 
     if request.method == "POST":
         Patient.objects.create(
-            name=request.POST.get("name"),
-            age=request.POST.get("age"),
-            gender=request.POST.get("gender"),
-            phone=request.POST.get("phone")
-        )
+    name=request.POST.get("name"),
+    age=request.POST.get("age"),
+    gender=request.POST.get("gender"),
+    phone=request.POST.get("phone"),
+    doctor_id=request.POST.get("doctor")
+)
 
     search_query = request.GET.get('search', '')
 
@@ -18,11 +21,14 @@ def patient_list(request):
     )
     
     total_patients = Patient.objects.count()
+    
+    doctors = Doctor.objects.all()
 
     context = {
         "patients": patients,
         "total_patients": total_patients,
-        "search_query": search_query
+        "search_query": search_query,
+        "doctors": doctors
     }
 
     return render(
