@@ -11,11 +11,18 @@ def patient_list(request):
             phone=request.POST.get("phone")
         )
 
-    patients = Patient.objects.all()
+    search_query = request.GET.get('search', '')
+
+    patients = Patient.objects.filter(
+      name__icontains=search_query
+    )
+    
+    total_patients = Patient.objects.count()
 
     context = {
-        "patients":patients,
-        "total_patients": patients.count()
+        "patients": patients,
+        "total_patients": total_patients,
+        "search_query": search_query
     }
 
     return render(
